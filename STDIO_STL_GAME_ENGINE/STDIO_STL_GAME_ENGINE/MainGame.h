@@ -1,34 +1,44 @@
 #pragma once
 #include<SDL.h>
 #include<stdio.h>
+#include"Scene.h"
+#include"MainMenuScene.h"
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
 
-enum class GameState
+enum GameState
 {
-	PLAY,
-	EXIT
+	MainMenu,
+	GamePlay,
+	Exit,
 };
 
 class MainGame
 {
 public:
+	//functions and constructor
 	MainGame();
 	~MainGame();
-	void run();
+	void run(Uint32 FPS);
+
+	//variables
+	GameState _gameState;
 
 private:
 	//functions
 	void init();
 	void update();
 	void draw();
-	void processInput();
 
 	//variables
 	int _screenWidth;
-	int _screenHeight;
-	GameState _gameState;
+	int _screenHeight;	
 	SDL_Window* _window;
+	SDL_Surface* _screenSurface;
+	Scene* _currentScene;
+	Scene* _nextScene;
+	Uint32 _fps;
+	Uint32 _delayTime;
 };
 
