@@ -133,11 +133,14 @@ void MainGame::update()
 
 void MainGame::draw()
 {
+	//clear screen first
 	SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
 	SDL_RenderClear(_renderer);
 
-
+	//draw to back buffer
 	_currentScene->draw();
+
+	//get the back buffer that draw by scene to front
 	SDL_RenderPresent(_renderer);
 }
 

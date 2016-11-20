@@ -3,6 +3,7 @@
 #include<SDL_image.h>
 #include"Scene.h"
 #include"Button.h"
+#include"Text.h"
 
 class MainMenuScene : public Scene
 {
