@@ -1,5 +1,9 @@
 #include "MainGame.h"
 GameState MainGame::_gameState;
+Scene* MainGame::_nextScene;
+int MainGame::_screenHeight;
+int MainGame::_screenWidth;
+
 MainGame::MainGame()
 {
 	_gameState = GameState::MainMenu;
@@ -33,10 +37,12 @@ void MainGame::run(Uint32 FPS)
 
 void MainGame::init()
 {
-	//init Scene
-	_currentScene = new MainMenuScene;
-	_nextScene = _currentScene;
-	_currentScene->init();
+
+	//init Image Support
+	if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) != (IMG_INIT_PNG | IMG_INIT_JPG))
+	{
+		printf("SDL Image Suport init failed!\n");
+	}
 
 	//SDL INIT EVERYTHING
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -51,13 +57,13 @@ void MainGame::init()
 	else
 	{
 		//Get window surface
-		_screenSurface = SDL_GetWindowSurface(_window);
+		//_screenSurface = SDL_GetWindowSurface(_window);
 
 		//Fill the surface white
-		SDL_FillRect(_screenSurface, NULL, SDL_MapRGB(_screenSurface->format, 0, 0, 255));
+		//SDL_FillRect(_screenSurface, NULL, SDL_MapRGB(_screenSurface->format, 0, 0, 255));
 
 		//Update the surface
-		SDL_UpdateWindowSurface(_window);
+		//SDL_UpdateWindowSurface(_window);
 	}
 
 	//init renderer to draw
@@ -67,6 +73,11 @@ void MainGame::init()
 	{
 		printf("SDL Renderer could not init! SDL Error : %s\n",SDL_GetError());
 	}
+
+	//init Scene
+	_currentScene = new MainMenuScene;
+	_nextScene = _currentScene;
+	_currentScene->init(_renderer);
 }
 
 void MainGame::update()
@@ -90,12 +101,13 @@ void MainGame::update()
 			delete _currentScene;
 			_currentScene = _nextScene;
 			_nextScene = _currentScene;
-			_currentScene->init();
+			_currentScene->init(_renderer);
 		}
 
 		//Scene Game Loop
 		_currentScene->update(FrameTime);
 		_currentScene->inputHandler();
+		draw();
 
 		//see how long the frame take to prosess
 		FrameTime = SDL_GetTicks() - FrameStart;
@@ -115,11 +127,17 @@ void MainGame::update()
 	SDL_DestroyRenderer(_renderer);
 
 	SDL_Quit();
+	//De init Image Support
+	IMG_Quit();
 }
 
 void MainGame::draw()
 {
-	
+	SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
+	SDL_RenderClear(_renderer);
+
+
 	_currentScene->draw();
+	SDL_RenderPresent(_renderer);
 }
 

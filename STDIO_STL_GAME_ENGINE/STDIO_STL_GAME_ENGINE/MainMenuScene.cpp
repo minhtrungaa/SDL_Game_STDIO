@@ -9,10 +9,16 @@ MainMenuScene::MainMenuScene()
 
 MainMenuScene::~MainMenuScene()
 {
+	delete _btnPlay;
 }
 
-void MainMenuScene::init()
+void MainMenuScene::init(SDL_Renderer* renderer)
 {
+	
+	_renderer = renderer;
+	_btnPlay = new Button("ButtonUP.png",_renderer);
+	_btnPlay->setButtonPosition(MainGame::getScreenWidth() / 2 - _btnPlay->getButtonWidth() / 2, 
+		MainGame::getScreenHeigth() / 2 - _btnPlay->getButtonWidth() / 2);
 }
 
 void MainMenuScene::update(float dt)
@@ -21,6 +27,7 @@ void MainMenuScene::update(float dt)
 
 void MainMenuScene::draw()
 {
+	_btnPlay->draw();
 }
 
 void MainMenuScene::inputHandler()
@@ -38,23 +45,14 @@ void MainMenuScene::inputHandler()
 		case SDL_KEYDOWN:
 			switch (Event.key.keysym.sym)
 			{
-			case SDLK_a:
-				printf("you click \'A'\ \n");
+			case SDLK_SPACE:
+				break;
+			case SDLK_RETURN:
+
 				break;
 			default:
 				break;
 			}
-			break;
-		case SDL_MOUSEBUTTONDOWN:
-			switch (Event.button.button)
-			{
-			case SDL_BUTTON_LEFT:
-				printf("Left Mouse Down! \n");
-				break;
-			default:
-				break;
-			}
-			break;
 		default:
 			break;
 		}

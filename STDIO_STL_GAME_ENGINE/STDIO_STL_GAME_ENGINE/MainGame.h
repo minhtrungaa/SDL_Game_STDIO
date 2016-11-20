@@ -21,9 +21,14 @@ public:
 	MainGame();
 	~MainGame();
 	void run(Uint32 FPS);
+	static int getScreenWidth() { return _screenWidth; }
+	static int getScreenHeigth() {
+		return _screenHeight;
+	}
 
 	//variables
 	static GameState _gameState;
+	static Scene* _nextScene;
 
 private:
 	//functions
@@ -32,12 +37,11 @@ private:
 	void draw();
 
 	//variables
-	int _screenWidth;
-	int _screenHeight;	
+	static int _screenWidth;
+	static int _screenHeight;
 	SDL_Window* _window;
 	SDL_Surface* _screenSurface;
 	Scene* _currentScene;
-	Scene* _nextScene;
 	Uint32 _fps;
 	Uint32 _delayTime;
 	SDL_Renderer* _renderer;
