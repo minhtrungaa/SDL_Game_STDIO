@@ -17,5 +17,6 @@ public:
 
 private:
 	Button* _btnPlay;
+	Button* _btnExit;
 };
 

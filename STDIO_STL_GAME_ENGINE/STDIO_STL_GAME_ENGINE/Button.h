@@ -15,9 +15,15 @@ public:
 	void setButtonPosition(int x, int y);
 	int getButtonHeight() const { return _buttonRect.h; }
 	int getButtonWidth() const { return _buttonRect.w; }
+	void setHoverTexture(const char* sourcePath);
+	void setClickedTexture(const char* sourcePath);
+	bool isClicked();
 
 private:
-	SDL_Texture* _texture;
+	SDL_Texture* _renderTexture;
+	SDL_Texture* _normaltexture;
+	SDL_Texture* _hoverTexture;
+	SDL_Texture* _clickedTexture;
 	SDL_Renderer* _renderer;
 	SDL_Rect _buttonRect;
 	Text* _title;
