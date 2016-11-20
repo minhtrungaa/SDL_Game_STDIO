@@ -1,4 +1,5 @@
 #include "MainGame.h"
+GameState MainGame::_gameState;
 MainGame::MainGame()
 {
 	_gameState = GameState::MainMenu;
@@ -58,6 +59,14 @@ void MainGame::init()
 		//Update the surface
 		SDL_UpdateWindowSurface(_window);
 	}
+
+	//init renderer to draw
+	_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
+
+	if (_renderer == nullptr)
+	{
+		printf("SDL Renderer could not init! SDL Error : %s\n",SDL_GetError());
+	}
 }
 
 void MainGame::update()
@@ -68,12 +77,14 @@ void MainGame::update()
 
 	//how long is First Frame
 	Uint32 FrameTime = _delayTime;
+	//Main Game Loop
 	while (_gameState != GameState::Exit)
 	{
 		//First Frame = Now Time in millisecon
 		FrameStart = SDL_GetTicks();
 		
 		//update Scene
+		//check to Change Scene
 		if (_currentScene != _nextScene)
 		{
 			delete _currentScene;
@@ -81,6 +92,8 @@ void MainGame::update()
 			_nextScene = _currentScene;
 			_currentScene->init();
 		}
+
+		//Scene Game Loop
 		_currentScene->update(FrameTime);
 		_currentScene->inputHandler();
 
@@ -94,14 +107,19 @@ void MainGame::update()
 			
 	}
 
-	//free memory for the window
+	//free memory for the window and de init
 	SDL_DestroyWindow(_window);
+	_window = nullptr;
+
+	//destroy renderer
+	SDL_DestroyRenderer(_renderer);
 
 	SDL_Quit();
 }
 
 void MainGame::draw()
 {
+	
 	_currentScene->draw();
 }
 

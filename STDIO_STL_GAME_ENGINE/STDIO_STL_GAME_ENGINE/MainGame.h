@@ -23,7 +23,7 @@ public:
 	void run(Uint32 FPS);
 
 	//variables
-	GameState _gameState;
+	static GameState _gameState;
 
 private:
 	//functions
@@ -40,5 +40,6 @@ private:
 	Scene* _nextScene;
 	Uint32 _fps;
 	Uint32 _delayTime;
+	SDL_Renderer* _renderer;
 };
 
