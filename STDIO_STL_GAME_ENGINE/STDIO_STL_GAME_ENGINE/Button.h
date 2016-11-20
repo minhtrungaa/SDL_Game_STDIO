@@ -2,25 +2,24 @@
 #include<stdio.h>
 #include<SDL.h>
 #include<SDL_image.h>
+#include"Text.h"
 
 class Button
 {
 public:
 	Button();
-	Button(const char* sourcePath, int x, int y, int w, int h, SDL_Renderer* renderer, char* Title);//init with W and H
-	Button(const char* sourcePath, int x, int y, SDL_Renderer* renderer, char* Title);//init with Default texture W and H
-	Button(const char* sourcePath, SDL_Renderer* renderer, char* Title);//init with no x y but have W and H have to manually set pos
+	Button(const char* sourcePath, SDL_Renderer* renderer, char* Title);//init with no x y but have W and H Default size have to manually set pos
 	~Button();
-	void init();
 	void update(float dt);
 	void draw();
-	void setButtonPosition(int x, int y) { _x = x; _y = y; };
-	int getButtonHeight() const { return _h; }
-	int getButtonWidth() const { return _w; }
+	void setButtonPosition(int x, int y);
+	int getButtonHeight() const { return _buttonRect.h; }
+	int getButtonWidth() const { return _buttonRect.w; }
 
 private:
-	int _x, _y, _w = 190, _h=49;
 	SDL_Texture* _texture;
 	SDL_Renderer* _renderer;
+	SDL_Rect _buttonRect;
+	Text* _title;
 };
 

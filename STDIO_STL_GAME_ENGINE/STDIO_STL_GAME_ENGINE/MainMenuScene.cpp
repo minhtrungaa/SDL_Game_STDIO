@@ -9,11 +9,14 @@ MainMenuScene::MainMenuScene()
 
 MainMenuScene::~MainMenuScene()
 {
+	delete _btnPlay;
 }
 
 void MainMenuScene::init(SDL_Renderer* renderer)
 {
-	
+	//init new button
+	_btnPlay = new Button("ButtonUp.png", renderer, "PLAY");
+	_btnPlay->setButtonPosition(MainGame::getScreenWidth() / 2 - _btnPlay->getButtonWidth() / 2, MainGame::getScreenHeigth() / 2 - _btnPlay->getButtonHeight() / 2);
 	_renderer = renderer;
 }
 
@@ -23,9 +26,9 @@ void MainMenuScene::update(float dt)
 
 void MainMenuScene::draw()
 {
-	Text text(_renderer,"TEST","Arial.ttf");
-	text.setTextPosition(MainGame::getScreenWidth() / 2 , MainGame::getScreenHeigth() / 2);
-	text.draw();
+	//delete button
+	_btnPlay->draw();
+	
 }
 
 void MainMenuScene::inputHandler()
@@ -44,6 +47,7 @@ void MainMenuScene::inputHandler()
 			switch (Event.key.keysym.sym)
 			{
 			case SDLK_SPACE:
+
 				break;
 			case SDLK_RETURN:
 
