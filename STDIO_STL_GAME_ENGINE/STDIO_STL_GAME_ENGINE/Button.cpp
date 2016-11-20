@@ -4,12 +4,14 @@
 
 Button::Button()
 {
+
 	_texture = nullptr;
 }
 
-Button::Button(const char * sourcePath, int x, int y, int w, int h,SDL_Renderer* renderer):
+Button::Button(const char * sourcePath, int x, int y, int w, int h,SDL_Renderer* renderer, char* title):
 	_x(x),_y(y),_h(h),_w(w),_renderer(renderer)
 {
+	_texture = nullptr;
 	SDL_Surface* surface = IMG_Load(sourcePath);
 	if (surface == nullptr)
 	{
@@ -20,9 +22,10 @@ Button::Button(const char * sourcePath, int x, int y, int w, int h,SDL_Renderer*
 	SDL_FreeSurface(surface);
 }
 
-Button::Button(const char * sourcePath, int x, int y, SDL_Renderer * renderer):
+Button::Button(const char * sourcePath, int x, int y, SDL_Renderer * renderer, char* title):
 _x(x), _y(y), _renderer(renderer)
 {
+	_texture = nullptr;
 	SDL_Surface* surface = IMG_Load(sourcePath);
 	if (surface == nullptr)
 	{
@@ -37,9 +40,10 @@ _x(x), _y(y), _renderer(renderer)
 	SDL_FreeSurface(surface);
 }
 
-Button::Button(const char * sourcePath, SDL_Renderer * renderer) :
+Button::Button(const char * sourcePath, SDL_Renderer * renderer, char* title) :
 _renderer(renderer)
 {
+	_texture = nullptr;
 	SDL_Surface* surface = IMG_Load(sourcePath);
 	if (surface == nullptr)
 	{
@@ -51,14 +55,17 @@ _renderer(renderer)
 	//get Texture size and set _w _h
 	SDL_QueryTexture(_texture, NULL, NULL, &_w, &_h);
 
+
 	SDL_FreeSurface(surface);
+
 }
 
 
 Button::~Button()
 {
 	SDL_DestroyTexture(_texture);
-
+	
+	IMG_Quit();
 }
 
 void Button::init()
@@ -79,6 +86,5 @@ void Button::draw()
 
 	//draw Button
 	SDL_RenderCopy(_renderer, _texture, NULL, &rect);
-	//draw Button Text
-	//arial.ttf
+
 }

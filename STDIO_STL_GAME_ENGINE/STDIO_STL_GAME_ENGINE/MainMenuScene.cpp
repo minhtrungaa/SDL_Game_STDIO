@@ -16,7 +16,7 @@ void MainMenuScene::init(SDL_Renderer* renderer)
 {
 	
 	_renderer = renderer;
-	_btnPlay = new Button("ButtonUP.png",_renderer);
+	_btnPlay = new Button("ButtonUP.png",_renderer,"PLAY");
 	_btnPlay->setButtonPosition(MainGame::getScreenWidth() / 2 - _btnPlay->getButtonWidth() / 2, 
 		MainGame::getScreenHeigth() / 2 - _btnPlay->getButtonWidth() / 2);
 }
