@@ -4,6 +4,13 @@
 #include<SDL_image.h>
 #include"Text.h"
 
+enum class ButtonState
+{
+	HOVER,
+	CLICKED,
+	NORMAL
+};
+
 class Button
 {
 public:
@@ -19,8 +26,10 @@ public:
 	void setClickedTexture(const char* sourcePath);
 	bool isClicked();
 
+	//variables
+	ButtonState _buttonState;
+
 private:
-	SDL_Texture* _renderTexture;
 	SDL_Texture* _normaltexture;
 	SDL_Texture* _hoverTexture;
 	SDL_Texture* _clickedTexture;
