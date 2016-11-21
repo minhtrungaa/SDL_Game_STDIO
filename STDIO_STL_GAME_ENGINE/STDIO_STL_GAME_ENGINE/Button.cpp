@@ -47,10 +47,11 @@ void Button::draw()
 	//draw Button
 	if(_buttonState == ButtonState::NORMAL)
 		SDL_RenderCopy(_renderer, _normaltexture, NULL, &_buttonRect);
-	if (_buttonState == ButtonState::HOVER)
+	else if (_buttonState == ButtonState::HOVER && _hoverTexture != nullptr)
 		SDL_RenderCopy(_renderer, _hoverTexture, NULL, &_buttonRect);
-	if (_buttonState == ButtonState::CLICKED)
+	else if (_buttonState == ButtonState::CLICKED && _clickedTexture != nullptr)
 		SDL_RenderCopy(_renderer, _clickedTexture, NULL, &_buttonRect);
+
 	_title->draw();
 }
 
@@ -87,7 +88,27 @@ void Button::setClickedTexture(const char * sourcePath)
 	SDL_FreeSurface(surface);
 }
 
-bool Button::isClicked()
+void Button::addButtonHoverListener(int x, int y)
 {
+	if (x >= _buttonRect.x && x <= _buttonRect.x + _buttonRect.w &&
+		y >= _buttonRect.y && y <= _buttonRect.y + _buttonRect.h)
+	{
+		if (_hoverTexture == nullptr)
+			printf("Hover Texture for Button is NULL! \n");
+		else
+		_buttonState = ButtonState::HOVER;
+	}
+	else
+		_buttonState = ButtonState::NORMAL;
+}
 
+void Button::addButtonClickListener(int x, int y)
+{
+	if (x >= _buttonRect.x && x <= _buttonRect.x + _buttonRect.w &&
+		y >= _buttonRect.y && y <= _buttonRect.y + _buttonRect.h)
+	{
+		_buttonState = ButtonState::CLICKED;
+	}
+	else
+		_buttonState = ButtonState::NORMAL;
 }

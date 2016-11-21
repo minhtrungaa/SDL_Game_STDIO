@@ -29,10 +29,17 @@ void MainMenuScene::init(SDL_Renderer* renderer)
 
 void MainMenuScene::update(float dt)
 {
-	if (_btnPlay->isClicked())
-		printf("BUTTON PLAY CLICKED!\n");
-	if (_btnExit->isClicked())
-		printf("BUTTON EXIT CLICKED!\n");
+	if (_btnPlay->_buttonState == ButtonState::CLICKED)
+	{
+		printf("Mouse Clicked with Button Play Rect\n");
+		_btnPlay->_buttonState = ButtonState::NORMAL;
+	}
+	if (_btnExit->_buttonState == ButtonState::CLICKED)
+
+	{
+		MainGame::_gameState = GameState::Exit;
+		_btnExit->_buttonState == ButtonState::NORMAL;
+	}
 }
 
 void MainMenuScene::draw()
@@ -53,9 +60,18 @@ void MainMenuScene::inputHandler()
 		case SDL_QUIT:
 			MainGame::_gameState = GameState::Exit;
 			break;
-			//Mouse Event
+			//Mouse Event Motion
 		case SDL_MOUSEMOTION:
-			//printf("%d-%d\n", Event.motion.x, Event.motion.y);
+			_btnPlay->addButtonHoverListener(Event.motion.x, Event.motion.y);
+			_btnExit->addButtonHoverListener(Event.motion.x, Event.motion.y);
+			break;
+			//Mouse Button DOWN
+		case SDL_MOUSEBUTTONUP:
+			if (Event.button.button == SDL_BUTTON_LEFT)
+			{
+				_btnPlay->addButtonClickListener(Event.motion.x, Event.motion.y);
+				_btnExit->addButtonClickListener(Event.motion.x, Event.motion.y);
+			}
 			break;
 			// keyboard event input
 		case SDL_KEYDOWN:
