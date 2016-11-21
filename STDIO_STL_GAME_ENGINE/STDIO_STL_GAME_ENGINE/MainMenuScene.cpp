@@ -10,6 +10,7 @@ MainMenuScene::MainMenuScene()
 MainMenuScene::~MainMenuScene()
 {
 	delete _btnPlay;
+	delete _btnExit;
 }
 
 void MainMenuScene::init(SDL_Renderer* renderer)
@@ -17,17 +18,27 @@ void MainMenuScene::init(SDL_Renderer* renderer)
 	//init new button
 	_btnPlay = new Button("ButtonUp.png", renderer, "PLAY");
 	_btnPlay->setButtonPosition(MainGame::getScreenWidth() / 2 - _btnPlay->getButtonWidth() / 2, MainGame::getScreenHeigth() / 2 - _btnPlay->getButtonHeight() / 2);
+	_btnPlay->setClickedTexture("ButtonDown.png");
+	// btn Exit
+	_btnExit = new Button("ButtonUp.png", renderer, "EXIT");
+	_btnExit->setButtonPosition(MainGame::getScreenWidth() / 2 - _btnExit->getButtonWidth() / 2,
+								MainGame::getScreenHeigth() / 2 + _btnExit->getButtonHeight());
+	_btnExit->setClickedTexture("ButtonDown.png");
 	_renderer = renderer;
 }
 
 void MainMenuScene::update(float dt)
 {
+	if (_btnPlay->isClicked())
+		printf("BUTTON PLAY CLICKED!\n");
+	if (_btnExit->isClicked())
+		printf("BUTTON EXIT CLICKED!\n");
 }
 
 void MainMenuScene::draw()
 {
-	//delete button
 	_btnPlay->draw();
+	_btnExit->draw();
 	
 }
 
@@ -41,6 +52,10 @@ void MainMenuScene::inputHandler()
 			// if quit
 		case SDL_QUIT:
 			MainGame::_gameState = GameState::Exit;
+			break;
+			//Mouse Event
+		case SDL_MOUSEMOTION:
+			//printf("%d-%d\n", Event.motion.x, Event.motion.y);
 			break;
 			// keyboard event input
 		case SDL_KEYDOWN:

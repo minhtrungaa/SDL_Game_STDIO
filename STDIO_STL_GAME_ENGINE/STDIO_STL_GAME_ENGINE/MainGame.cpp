@@ -20,6 +20,17 @@ MainGame::MainGame()
 MainGame::~MainGame()
 {
 	delete _currentScene;
+
+	//free memory for the window and de init
+	SDL_DestroyWindow(_window);
+	_window = nullptr;
+
+	//destroy renderer
+	SDL_DestroyRenderer(_renderer);
+
+	SDL_Quit();
+	//De init Image Support
+	IMG_Quit();
 }
 
 void MainGame::run(Uint32 FPS)
@@ -113,22 +124,14 @@ void MainGame::update()
 		FrameTime = SDL_GetTicks() - FrameStart;
 		if (FrameTime < _delayTime)
 		{
+			//delay the time if it is faster than the delay time
 			SDL_Delay(_delayTime - FrameTime);
+			//delay it
 			FrameTime += _delayTime - FrameTime;
 		}
 			
 	}
 
-	//free memory for the window and de init
-	SDL_DestroyWindow(_window);
-	_window = nullptr;
-
-	//destroy renderer
-	SDL_DestroyRenderer(_renderer);
-
-	SDL_Quit();
-	//De init Image Support
-	IMG_Quit();
 }
 
 void MainGame::draw()
