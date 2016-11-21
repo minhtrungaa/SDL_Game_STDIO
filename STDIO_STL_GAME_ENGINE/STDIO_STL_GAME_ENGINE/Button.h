@@ -24,7 +24,7 @@ public:
 	int getButtonWidth() const { return _buttonRect.w; }
 	void setHoverTexture(const char* sourcePath);
 	void setClickedTexture(const char* sourcePath);
-	bool isClicked();
+	
 
 	//variables
 	ButtonState _buttonState;
